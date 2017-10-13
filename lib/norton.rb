@@ -40,8 +40,12 @@ module Norton
     # @return [Void]
     #
     def setup(options = {})
-      self.pools = {}
+      Norton.pools = {}
       options.deep_symbolize_keys!
+
+      if options.blank? || options[:default].blank?
+        raise "Norton couldn't initialize!"
+      end
 
       options.each do |name, conn_params|
         pool_size = (conn_params.delete(:pool) || 1).to_i
